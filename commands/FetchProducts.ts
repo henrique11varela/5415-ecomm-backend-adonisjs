@@ -34,12 +34,10 @@ export default class FetchProducts extends BaseCommand {
 
   public async run() {
     try {
-      const totalProducts = await Product.query().count('*', { as: 'total' });
+      const firstProduct = await Product.first();
 
-      const { total } = totalProducts[0];
-
-      if (total > 0) {
-        this.logger.info(`There are ${total} products in the database!`);
+      if (firstProduct) {
+        this.logger.info(`There are products in the database!`);
         return;
       }
 

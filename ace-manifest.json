@@ -1,5 +1,17 @@
 {
   "commands": {
+    "fetch:products": {
+      "settings": {
+        "loadApp": true,
+        "stayAlive": false
+      },
+      "commandPath": "./commands/FetchProducts",
+      "commandName": "fetch:products",
+      "description": "",
+      "args": [],
+      "aliases": [],
+      "flags": []
+    },
     "dump:rcfile": {
       "settings": {},
       "commandPath": "@adonisjs/core/build/commands/DumpRc",

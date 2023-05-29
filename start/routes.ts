@@ -26,4 +26,4 @@ Route.get('/', async () => {
 
 Route.get('/products', 'ProductsController.index')
 Route.post('/checkCoupon', 'CouponsController.checkCoupon')
-// Route.post('checkout', 'CheckoutsController.store')
+Route.post('/checkout', 'CheckoutsController.store')

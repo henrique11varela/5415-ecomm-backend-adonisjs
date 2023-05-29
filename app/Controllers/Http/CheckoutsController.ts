@@ -5,7 +5,7 @@ import { DateTime } from 'luxon';
 
 export default class CheckoutsController {
   //checkout
-  public async checkout({ request, response }: HttpContextContract) {
+  public async store({ request, response }: HttpContextContract) {
     try {
       const { products, coupon } = request.all()
       const productsIdList = products.map((product: any) => product.id)

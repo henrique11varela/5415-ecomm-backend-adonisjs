@@ -13,13 +13,13 @@ export default class CheckoutsController {
 
       //this 2 queries could be done in parallel
       const dbProducts = await Product.query().whereIn('id', productsIdList).exec()
+
       if (dbProducts.length !== products.length) throw new Error('Some products were not found')
       if (dbProducts.some((product: any) => product.quantity === 0)) throw new Error('Some products are out of stock')
 
-      let dbCoupon: Coupon | null = null
+      let dbCoupon = await Coupon.findBy('code', coupon)
 
-      if (coupon) {
-        dbCoupon = await Coupon.findByOrFail('code', coupon.code)
+      if (dbCoupon) {
         if (dbCoupon.usageCount >= dbCoupon.usageLimit) throw new Error('Coupon usage limit reached')
         if (dbCoupon.validFrom > DateTime.now()) throw new Error('Coupon is not valid yet')
         if (dbCoupon.validUntil < DateTime.now()) throw new Error('Coupon is expired')
@@ -50,9 +50,14 @@ export default class CheckoutsController {
         dbCoupon.usageCount += 1
         await dbCoupon.save()
       }
+
       //implement transaction here (Stripe, Paypal, etc)
 
-      const checkout = await Checkout.create({ products, coupon, total, discountedTotal })
+      const JSONproducts = JSON.stringify(products)
+      const checkoutData = { products: JSONproducts, coupon, total, discountedTotal };
+
+      const checkout = await Checkout.create(checkoutData)
+      console.log(checkout);
 
       return response.ok({ success: true, message: 'Checkout successful', checkout })
     } catch (error) {

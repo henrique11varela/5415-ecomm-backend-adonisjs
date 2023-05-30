@@ -5,7 +5,64 @@ import Product from 'App/Models/Product';
 import { DateTime } from 'luxon';
 
 export default class CheckoutsController {
-  //checkout
+  /**
+ * @swagger
+ * /checkout:
+ *   post:
+ *     tags:
+ *       - Checkout
+ *     description: Create a new checkout
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               products:
+ *                 type: array
+ *                 items:
+ *                   type: object
+ *                   properties:
+ *                     id:
+ *                       type: integer
+ *                     quantity:
+ *                       type: integer
+ *               coupon:
+ *                 type: string
+ *           example:
+ *             products: [
+ *               { id: 1, quantity: 2 },
+ *               { id: 2, quantity: 1 }
+ *             ]
+ *             coupon: "ABCDEFG"
+ *     responses:
+ *       200:
+ *         description: Successful response
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: true
+ *                 message:
+ *                   type: string
+ *                   example: "Checkout successful"
+ *                 checkout:
+ *                   $ref: '#/components/schemas/Checkout'
+ *       400:
+ *         description: Bad request or validation error
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: string
+ *                   example: "Bad request or validation error"
+ */
   public async store({ request, response }: HttpContextContract) {
     try {
       const { products, coupon } = request.all()

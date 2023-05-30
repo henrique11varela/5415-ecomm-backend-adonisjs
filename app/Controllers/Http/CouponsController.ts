@@ -4,6 +4,63 @@ import Coupon from 'App/Models/Coupon';
 import { DateTime } from 'luxon';
 
 export default class CouponsController {
+  /**
+ * @swagger
+ * /check-coupon:
+ *   post:
+ *     tags:
+ *       - Coupons
+ *     description: Check if a coupon is valid
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               couponCode:
+ *                 type: string
+ *                 example: "ABCDEFG"
+ *             required:
+ *               - couponCode
+ *     responses:
+ *       200:
+ *         description: Coupon is valid
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: true
+ *                 message:
+ *                   type: string
+ *                   example: "Coupon is valid"
+ *                 discount:
+ *                   type: number
+ *                   example: 10
+ *       400:
+ *         description: Coupon not found or invalid
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: string
+ *                   example: "Coupon not found or invalid"
+ *       500:
+ *         description: Internal Server Error
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: string
+ *                   example: "Internal Server Error"
+ */
   public async checkCoupon({ request, response }: HttpContextContract) {
     try {
 

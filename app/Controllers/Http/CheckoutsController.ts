@@ -72,7 +72,20 @@ export default class CheckoutsController {
       const dbProducts = await Product.query().whereIn('id', productsIdList).exec()
 
       if (dbProducts.length !== products.length) throw new Error('Some products were not found')
-      if (dbProducts.some((product: any) => product.quantity === 0)) throw new Error('Some products are out of stock')
+
+      if (dbProducts.some((dbProduct: any) => {
+        const product = products.find((product: any) => product.id === dbProduct.id)
+        return dbProduct.quantity < product.quantity
+      })) throw new Error('Some products are out of stock')
+
+      // for (const dbProduct of dbProducts) {
+      //   for (const product of products) {
+      //     if (dbProduct.id === product.id) {
+      //       if (dbProduct.quantity < product.quantity) throw new Error('Some products are out of stock')
+      //     }
+      //   }
+      // }
+
 
       let dbCoupon = await Coupon.findBy('code', coupon)
 

@@ -51,7 +51,8 @@ export default class FetchProducts extends BaseCommand {
         description: p.description,
         image: p.image,
         price: p.price,
-        quantity: _.random(1, 20)
+        quantity: _.random(1, 20),
+        rating: _.random(1, 5),
       }))
 
       const savedProducts = await Product.createMany(products)

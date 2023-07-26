@@ -27,13 +27,16 @@ import { DateTime } from 'luxon'
  *            quantity:
  *              type: number
  *              example: 10
- *          required:
+  *           rating:
+  *             type: number
+  *             example: 4.5
+*          required:
  *            - name
  *            - description
  *            - image
  *            - price
  *            - quantity
- *
+ *            - rating
  */
 export default class Product extends BaseModel {
   @column({ isPrimary: true })
@@ -53,6 +56,9 @@ export default class Product extends BaseModel {
 
   @column()
   public quantity: number
+
+  @column()
+  public rating: number
 
   @column.dateTime({ autoCreate: true, serializeAs: null })
   public createdAt: DateTime

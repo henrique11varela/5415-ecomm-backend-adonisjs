@@ -1,0 +1,356 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Application with swagger docs",
+    "version": "1.0.0",
+    "description": "My application with swagger docs"
+  },
+  "paths": {
+    "/checkout": {
+      "post": {
+        "tags": [
+          "Checkout"
+        ],
+        "description": "Create a new checkout",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "products": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "integer"
+                        },
+                        "quantity": {
+                          "type": "integer"
+                        }
+                      }
+                    }
+                  },
+                  "coupon": {
+                    "type": "string"
+                  }
+                }
+              },
+              "example": {
+                "products": [
+                  {
+                    "id": 1,
+                    "quantity": 2
+                  },
+                  {
+                    "id": 2,
+                    "quantity": 1
+                  }
+                ],
+                "coupon": "ABCDEFG"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Checkout successful"
+                    },
+                    "checkout": {
+                      "$ref": "#/components/schemas/Checkout"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request or validation error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "example": "Bad request or validation error"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/check-coupon": {
+      "post": {
+        "tags": [
+          "Coupons"
+        ],
+        "description": "Check if a coupon is valid",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "couponCode": {
+                    "type": "string",
+                    "example": "ABCDEFG"
+                  }
+                },
+                "required": [
+                  "couponCode"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Coupon is valid",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Coupon is valid"
+                    },
+                    "discount": {
+                      "type": "number",
+                      "example": 10
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Coupon not found or invalid",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "example": "Coupon not found or invalid"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "example": "Internal Server Error"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/products": {
+      "get": {
+        "tags": [
+          "Products"
+        ],
+        "description": "Get all products",
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Product"
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "example": "Internal Server Error"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Checkout": {
+        "type": "object",
+        "description": "Entity to represent a checkout, use it as a log of the checkout and as proof of successful payment",
+        "properties": {
+          "id": {
+            "type": "number",
+            "example": 1
+          },
+          "products": {
+            "type": "jsonb",
+            "example": "[{\"id\":1,\"quantity\":10},{\"id\":2,\"quantity\":20}]]"
+          },
+          "coupon": {
+            "type": "string",
+            "example": "ABCDEFG"
+          },
+          "total": {
+            "type": "number",
+            "example": 100
+          },
+          "discountedTotal": {
+            "type": "number",
+            "example": 90
+          }
+        },
+        "required": [
+          "products",
+          "coupon",
+          "total",
+          "discountedTotal"
+        ]
+      },
+      "Coupon": {
+        "type": "object",
+        "description": "Entity to represent a coupon, use it to apply discounts to the total of a checkout",
+        "properties": {
+          "id": {
+            "type": "number",
+            "example": 1
+          },
+          "code": {
+            "type": "string",
+            "example": "ABCDEFG"
+          },
+          "discount": {
+            "type": "number",
+            "example": 10
+          },
+          "validFrom": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2021-01-01T00:00:00.000Z"
+          },
+          "validUntil": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2021-12-31T23:59:59.999Z"
+          },
+          "usageLimit": {
+            "type": "number",
+            "example": 100
+          },
+          "usageCount": {
+            "type": "number",
+            "example": 10
+          }
+        },
+        "required": [
+          "code",
+          "discount",
+          "validFrom",
+          "validUntil",
+          "usageLimit",
+          "usageCount"
+        ]
+      },
+      "Product": {
+        "type": "object",
+        "description": "Entity to represent a product, use it to create a checkout. The products came from an external API",
+        "properties": {
+          "id": {
+            "type": "number",
+            "example": 1
+          },
+          "name": {
+            "type": "string",
+            "example": "Product 1"
+          },
+          "description": {
+            "type": "string",
+            "example": "Description 1"
+          },
+          "image": {
+            "type": "string",
+            "example": "https://via.placeholder.com/150"
+          },
+          "price": {
+            "type": "number",
+            "example": 100
+          },
+          "quantity": {
+            "type": "number",
+            "example": 10
+          },
+          "rating": {
+            "type": "number",
+            "example": 4.5
+          },
+          "created_at": {
+            "type": "Date",
+            "example": "2021-01-01T00:00:00.000Z"
+          },
+          "updated_at": {
+            "type": "Date",
+            "example": "2021-01-01T00:00:00.000Z"
+          },
+          "required": [
+            "name",
+            "description",
+            "image",
+            "price",
+            "quantity",
+            "rating"
+          ]
+        }
+      }
+    }
+  },
+  "tags": []
+}

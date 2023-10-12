@@ -27,16 +27,22 @@ import { DateTime } from 'luxon'
  *            quantity:
  *              type: number
  *              example: 10
-  *           rating:
-  *             type: number
-  *             example: 4.5
-*          required:
- *            - name
- *            - description
- *            - image
- *            - price
- *            - quantity
- *            - rating
+ *            rating:
+ *              type: number
+ *              example: 4.5
+ *            created_at:
+ *              type: Date
+ *              example: "2021-01-01T00:00:00.000Z"
+ *            updated_at:
+ *              type: Date
+ *              example: "2021-01-01T00:00:00.000Z"
+ *            required:
+ *              - name
+ *              - description
+ *              - image
+ *              - price
+ *              - quantity
+ *              - rating
  */
 export default class Product extends BaseModel {
   @column({ isPrimary: true })

@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
+    "setup-dev": "node ace migration:refresh --seed && node ace fetch:products && node ace swagger:generate",
     "dev": "node ace serve --watch",
     "build": "node ace build --production",
     "start": "node server.js",

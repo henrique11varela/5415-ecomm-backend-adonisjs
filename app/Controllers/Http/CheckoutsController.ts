@@ -78,21 +78,13 @@ export default class CheckoutsController {
         return dbProduct.quantity < product.quantity
       })) throw new Error('Some products are out of stock')
 
-      // for (const dbProduct of dbProducts) {
-      //   for (const product of products) {
-      //     if (dbProduct.id === product.id) {
-      //       if (dbProduct.quantity < product.quantity) throw new Error('Some products are out of stock')
-      //     }
-      //   }
-      // }
-
-
       let dbCoupon = await Coupon.findBy('code', coupon)
 
       if (dbCoupon) {
+        console.log(`${dbCoupon.validFrom} > ${DateTime.now()} : ${dbCoupon.validFrom > DateTime.now()}`)
         if (dbCoupon.usageCount >= dbCoupon.usageLimit) throw new Error('Coupon usage limit reached')
         if (dbCoupon.validFrom > DateTime.now()) throw new Error('Coupon is not valid yet')
-        if (dbCoupon.validUntil < DateTime.now()) throw new Error('Coupon is expired')
+        if (dbCoupon.validUntil < DateTime.now()) throw new Error('Coupon has expired')
       }
 
       let total = 0
@@ -114,6 +106,7 @@ export default class CheckoutsController {
           await dbProduct.save()
         }
       }))
+
       if (dbCoupon) {
         discountedTotal = total - (total * dbCoupon.discount) / 100
 

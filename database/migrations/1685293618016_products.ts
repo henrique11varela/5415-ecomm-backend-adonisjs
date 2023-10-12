@@ -12,6 +12,7 @@ export default class extends BaseSchema {
       table.string('image').notNullable()
       table.decimal('price').notNullable()
       table.integer('quantity').notNullable()
+      table.decimal('rating')
 
       /**
        * Uses timestamptz for PostgreSQL and DATETIME2 for MSSQL

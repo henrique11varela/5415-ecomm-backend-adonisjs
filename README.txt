@@ -18,5 +18,12 @@ node ace fetch:products
 node ace serve - preview mode
 node ace serve --watch - development mode
 
-notas: 
-node ace list:routes -- lista as rotas
+Notes: 
+node ace list:routes 
+  [!] lists all routes
+
+node ace serve --help 
+  [!] shows explanations on all available comands
+
+node ace serve make:model --help
+  [!} explanations and options about the comand inserted in this case make:model, can be any other

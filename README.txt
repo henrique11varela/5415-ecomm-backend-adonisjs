@@ -17,3 +17,6 @@ node ace fetch:products
 7- Run the server
 node ace serve - preview mode
 node ace serve --watch - development mode
+
+notas: 
+node ace list:routes -- lista as rotas

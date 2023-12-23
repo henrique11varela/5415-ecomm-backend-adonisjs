@@ -75,6 +75,7 @@ export default class CouponsController {
       const coupon = await Coupon.findBy('code', couponCode);
 
       if (!coupon) throw new Error('Coupon not found');
+      if (coupon.validFrom > DateTime.now()) throw new Error('Coupon isn\'t valid yet');
       if (coupon.validUntil < DateTime.now()) throw new Error('Coupon is expired');
       if (coupon.usageCount >= coupon.usageLimit) throw new Error('Coupon usage limit reached');
 

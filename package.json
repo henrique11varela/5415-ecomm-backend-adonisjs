@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "setup-dev": "mkdir tmp || true && cp ./.env.example ./.env && node ace migration:refresh --seed && node ace fetch:products && node ace swagger:generate",
+    "setup-dev": "(mkdir tmp || true) && (rm ./.env || true) && cp ./.env.example ./.env && node ace migration:refresh --seed && node ace fetch:products && node ace swagger:generate",
     "dev": "node ace serve --watch",
     "build": "node ace build --production",
     "start": "node server.js",

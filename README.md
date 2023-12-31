@@ -1,3 +1,11 @@
+# setup
+
+```shell
+npm i
+npm run setup-dev
+npm run dev
+```
+
 Project setup:
 
 1- Install dependencies
